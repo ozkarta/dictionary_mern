@@ -1,5 +1,5 @@
 module.exports = {
-    DB_CONNECTION: '',
+    DB_CONNECTION: 'mongodb://localhost:27017/ucxo?readPreference=primary',
     BONSAI_URL: '',
     BONSAI_URL_GERMANY: '',
     SECRET: 'test',
