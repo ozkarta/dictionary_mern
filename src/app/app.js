@@ -241,6 +241,7 @@ class SearchInputForm extends React.Component {
                                     placeholder="Type word ..."
                                     value={this.props.searchInput}
                                     id="termInput"
+                                    autocomplete="off"
 
                                     onKeyUp={this.props.searchInputKeyUpHandler}
                                     onChange={this.props.searchInputChangenHandler}
