@@ -1,13 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+import * as RX from 'rxjs';
+
+import axios from 'axios';
 import * as DictionaryFunctions from '../shared/dictionary';
 
 class AppComponent extends React.Component {
+
     constructor(props) {
         super(props);
+        this.CancelToken = axios.CancelToken;
+        this.source = this.CancelToken.source();
 
         this.searchInputKeyUpHandler = this.searchInputKeyUpHandler.bind(this);
         this.searchInputChangenHandler = this.searchInputChangenHandler.bind(this);
+        this.makeRequest = this.makeRequest.bind(this);
+
+        
 
         this.state = {
             ...props,
@@ -15,6 +25,14 @@ class AppComponent extends React.Component {
             searchInputKeyUpHandler: this.searchInputKeyUpHandler,
             searchInputChangenHandler: this.searchInputChangenHandler
         };
+
+        this.trial = new RX.Subject();
+
+        this.trial.debounceTime(400).distinctUntilChanged().subscribe(term => {
+            this.makeRequest();
+        })
+            
+
     }
     searchInputChangenHandler(event) {
         let stateCP = Object.assign({}, this.state);
@@ -23,7 +41,15 @@ class AppComponent extends React.Component {
     }
 
     searchInputKeyUpHandler(event) {
-        DictionaryFunctions.getDictionaryItemByTerm(this.state.searchInput)
+        this.source.cancel();
+        this.trial.next(this.state.searchInput);
+    }
+
+    makeRequest() {
+        this.source.cancel();
+        this.source = this.CancelToken.source();
+
+        DictionaryFunctions.getDictionaryItemByTerm(this.state.searchInput, this.source)
             .then(
                 data => {
                     let stateCP = Object.assign({}, this.state);
@@ -33,7 +59,7 @@ class AppComponent extends React.Component {
             )
             .catch(exception => {
                 console.dir(exception);
-            })
+            });
     }
 
     render() {
@@ -41,7 +67,7 @@ class AppComponent extends React.Component {
         if (this.state.result && this.state.result.length) {
             items = this.state.result;
         }
-        
+
         return (
             <div className="container-fluid" id="maincontainer" style={{ 'marginTop': '5px' }}>
                 <div className="row">

@@ -3,10 +3,10 @@ axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://localh
 
 let apiBaseUrl = '/api/v1'
 
-export async function getDictionaryItemByTerm (term) {
+export async function getDictionaryItemByTerm (term, source) {
     return new Promise(async(resolve, reject) => {
         try {
-            let result = await axios.get(`${apiBaseUrl}/dictionary${term? `?searchTerm=${term}` : ''}`);
+            let result = await axios.get(`${apiBaseUrl}/dictionary${term? `?searchTerm=${term}` : ''}`, {cancelToken: source.token});
             if (result && result.data) {
                 return resolve(result.data);
             }
