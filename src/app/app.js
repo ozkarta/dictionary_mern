@@ -17,7 +17,7 @@ class AppComponent extends React.Component {
         this.searchInputChangenHandler = this.searchInputChangenHandler.bind(this);
         this.makeRequest = this.makeRequest.bind(this);
 
-        
+
 
         this.state = {
             ...props,
@@ -31,7 +31,7 @@ class AppComponent extends React.Component {
         this.trial.debounceTime(400).distinctUntilChanged().subscribe(term => {
             this.makeRequest();
         })
-            
+
 
     }
     searchInputChangenHandler(event) {
@@ -193,15 +193,18 @@ class DefinitionAndSource extends React.Component {
 
                 <br />
                 <br />
-                <div className="row" style={{ 'marginTop': '2px' }}>
-                    <div className="col-md-12">
-                        <div className="pull-left">
-                        </div>
-                        <div className="pull-left toolbox-fulltext">
-                            Source: <small> {this.props.source} </small>
+                {
+                    this.props.source &&
+                    <div className="row" style={{ 'marginTop': '2px' }}>
+                        <div className="col-md-12">
+                            <div className="pull-left">
+                            </div>
+                            <div className="pull-left toolbox-fulltext">
+                                Source: <small> {this.props.source} </small>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
             </React.Fragment>
         );
     }
