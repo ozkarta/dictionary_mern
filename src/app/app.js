@@ -73,10 +73,15 @@ class AppComponent extends React.Component {
                 <div className="row">
 
                     <div className="col-md-2">
-                        left
+                        <AdsImageLink src="ad1.png"/>
+                        <AdsImageLink src="ad1.png"/>
+                        <AdsImageLink src="ad1.png"/>
+                        <AdsImageLink src="ad1.png"/>
+                        <AdsImageLink src="ad1.png"/>
                     </div>
 
-                    <div className="col-md-8">
+                    <div className="col-md-8" style={{paddingTop: '5%'}}>
+                        
 
                         <SearchInputForm {...this.state} />
 
@@ -92,10 +97,22 @@ class AppComponent extends React.Component {
 
                         </div>
 
+                        {
+                            !items.length && 
+                            <h1 style={{fontSize: '17px', marginTop: '5px', marginBottom: '5px'}}> 
+                                ქართული განმარტებითი ლექსიკონი 
+                                <small> შესულია 140 000  სიტყვაზე მეტი</small> 
+                            </h1>
+                        }
+
                     </div>
 
                     <div className="col-md-2">
-                        right
+                        <AdsImageLink src="ad1.png"/>
+                        <AdsImageLink src="ad1.png"/>
+                        <AdsImageLink src="ad1.png"/>
+                        <AdsImageLink src="ad1.png"/>
+                        <AdsImageLink src="ad1.png"/>
                     </div>
 
                 </div>
@@ -235,6 +252,14 @@ class SearchInputForm extends React.Component {
                     </form>
                 </div>
             </div>
+        );
+    }
+}
+
+class AdsImageLink extends React.Component {
+    render() {
+        return(
+            <img src={this.props.src} alt="alt"  style={{width: '100%', height: '3%'}}/>
         );
     }
 }
