@@ -62,12 +62,12 @@ class DictionaryComponent extends React.Component {
     searchInputKeyUpHandler(event) {
         this.source.cancel();
         this.trial.next(this.state.searchInput);
+        this.props.history.push(this.state.searchInput);
     }
 
     makeRequest() {
         this.source.cancel();
         this.source = this.CancelToken.source();
-        this.props.history.push(this.state.searchInput);
         DictionaryFunctions.getDictionaryItemByTerm(this.state.searchInput, this.source)
             .then(
                 data => {
