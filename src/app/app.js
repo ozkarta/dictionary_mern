@@ -1,12 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {BrowserRouter as Router, Route} from 'react-router-dom'
 
 import * as RX from 'rxjs';
 
 import axios from 'axios';
 import * as DictionaryFunctions from '../shared/dictionary';
 
-class AppComponent extends React.Component {
+class AppComponent extends React.Component{
+    render() {
+        return(
+            <Router>
+                <Route path="/" component={DictionaryComponent}
+                />
+            </Router>
+        )
+    }
+}
+
+class DictionaryComponent extends React.Component {
 
     constructor(props) {
         super(props);
@@ -16,8 +28,6 @@ class AppComponent extends React.Component {
         this.searchInputKeyUpHandler = this.searchInputKeyUpHandler.bind(this);
         this.searchInputChangenHandler = this.searchInputChangenHandler.bind(this);
         this.makeRequest = this.makeRequest.bind(this);
-
-
 
         this.state = {
             ...props,
@@ -30,10 +40,19 @@ class AppComponent extends React.Component {
 
         this.trial.debounceTime(400).distinctUntilChanged().subscribe(term => {
             this.makeRequest();
-        })
-
-
+        });
     }
+
+    componentDidMount() {
+        if (this.props.location && this.props.location.pathname && (this.props.location.pathname.length > 1)) {
+            let search = this.props.location.pathname.substring(1, this.props.location.pathname.length);
+            let stateCP = Object.assign({}, this.state);
+            stateCP.searchInput = search;
+            this.setState(stateCP);
+            this.trial.next(this.state.searchInput);
+        }
+    }
+
     searchInputChangenHandler(event) {
         let stateCP = Object.assign({}, this.state);
         stateCP.searchInput = event.target.value;
@@ -48,7 +67,7 @@ class AppComponent extends React.Component {
     makeRequest() {
         this.source.cancel();
         this.source = this.CancelToken.source();
-
+        this.props.history.push(this.state.searchInput);
         DictionaryFunctions.getDictionaryItemByTerm(this.state.searchInput, this.source)
             .then(
                 data => {
@@ -230,16 +249,16 @@ class SearchInputForm extends React.Component {
                             <div className="col-sm-12">
                                 <input type="text"
                                     className="form-control searchbox"
-                                    placeholder="Type word ..."
+                                    placeholder="საძიებელი სიტყვა"
                                     value={this.props.searchInput}
                                     id="termInput"
-                                    autocomplete="off"
+                                    autoComplete="off"
 
                                     onKeyUp={this.props.searchInputKeyUpHandler}
                                     onChange={this.props.searchInputChangenHandler}
                                 />
                                 <span name="boxdefault" className="glyphicon glyphicon-search form-control-feedback" style={{ 'cursor': 'pointer', 'display': 'none' }}></span>
-                                <span name="boxdelete" className="glyphicon glyphicon-remove form-control-feedback" style={{ cursor: 'pointer' }}></span>
+                                <span name="boxdelete" className="glyphicon glyphicon-remove form-control-feedback" style={{ cursor: 'pointer', 'display': 'none' }}></span>
                             </div>
                         </div>
                     </form>
