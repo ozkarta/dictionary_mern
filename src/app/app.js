@@ -253,7 +253,7 @@ class SearchInputForm extends React.Component {
                                     value={this.props.searchInput}
                                     id="termInput"
                                     autoComplete="off"
-
+                                    autoFocus
                                     onKeyUp={this.props.searchInputKeyUpHandler}
                                     onChange={this.props.searchInputChangenHandler}
                                 />
