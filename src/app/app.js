@@ -73,11 +73,7 @@ class AppComponent extends React.Component {
                 <div className="row">
 
                     <div className="col-md-2">
-                        <AdsImageLink src="ad1.png"/>
-                        <AdsImageLink src="ad1.png"/>
-                        <AdsImageLink src="ad1.png"/>
-                        <AdsImageLink src="ad1.png"/>
-                        <AdsImageLink src="ad1.png"/>
+                        
                     </div>
 
                     <div className="col-md-8" style={{paddingTop: '5%'}}>
@@ -108,11 +104,7 @@ class AppComponent extends React.Component {
                     </div>
 
                     <div className="col-md-2">
-                        <AdsImageLink src="ad1.png"/>
-                        <AdsImageLink src="ad1.png"/>
-                        <AdsImageLink src="ad1.png"/>
-                        <AdsImageLink src="ad1.png"/>
-                        <AdsImageLink src="ad1.png"/>
+                        
                     </div>
 
                 </div>
