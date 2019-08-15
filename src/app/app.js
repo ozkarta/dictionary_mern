@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Route} from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 import * as RX from 'rxjs';
 
 import axios from 'axios';
 import * as DictionaryFunctions from '../shared/dictionary';
 
-class AppComponent extends React.Component{
+class AppComponent extends React.Component {
     render() {
-        return(
+        return (
             <Router>
                 <Route path="/" component={DictionaryComponent}
                 />
@@ -92,11 +92,11 @@ class DictionaryComponent extends React.Component {
                 <div className="row">
 
                     <div className="col-md-2">
-                        
+
                     </div>
 
-                    <div className="col-md-8" style={{paddingTop: '5%'}}>
-                        
+                    <div className="col-md-8" style={{ paddingTop: '5%' }}>
+
 
                         <SearchInputForm {...this.state} />
 
@@ -113,17 +113,17 @@ class DictionaryComponent extends React.Component {
                         </div>
 
                         {
-                            !items.length && 
-                            <h1 style={{fontSize: '17px', marginTop: '5px', marginBottom: '5px'}}> 
-                                ქართული განმარტებითი ლექსიკონი 
-                                <small> შესულია 140 000  სიტყვაზე მეტი</small> 
+                            !items.length &&
+                            <h1 style={{ fontSize: '17px', marginTop: '5px', marginBottom: '5px' }}>
+                                ქართული განმარტებითი ლექსიკონი
+                                <small> შესულია 140 000  სიტყვაზე მეტი</small>
                             </h1>
                         }
 
                     </div>
 
                     <div className="col-md-2">
-                        
+
                     </div>
 
                 </div>
@@ -175,6 +175,34 @@ class ResultItem extends React.Component {
                 break;
             case 'christianity':
                 type = 'ქრისტიანული ლექსოკონი'
+                break;
+            // ===================
+            case 'biology_scientific':
+                type = 'ბიოლოგიური და სამედიცინო ტერმინები და ცნებები'
+                break;
+
+            case 'gurian':
+                type = 'გურული ლექსიკონი'
+                break;
+
+            case 'upper_guria':
+                type = 'ზემო გურული'
+                break;
+
+            case 'tvaladian':
+                type = 'თვალადური ქართული ჭაშნიკი'
+                break;
+
+            case 'latin_justice':
+                type = 'ლათინური იურიდიული ტერმინოლოგია'
+                break;
+
+            case 'megrelian':
+                type = 'მეგრული ლექსიკონი'
+                break;
+
+            case 'qartlis_cxovrebis_topoarqeologiuri':
+                type = 'ქართლის ცხოვრების ტოპოარქეოლოგიური ლექსიკონი'
                 break;
 
             default: break;
@@ -270,8 +298,8 @@ class SearchInputForm extends React.Component {
 
 class AdsImageLink extends React.Component {
     render() {
-        return(
-            <img src={this.props.src} alt="alt"  style={{width: '100%', height: '3%'}}/>
+        return (
+            <img src={this.props.src} alt="alt" style={{ width: '100%', height: '3%' }} />
         );
     }
 }

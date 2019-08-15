@@ -14,6 +14,5 @@ export async function getDictionaryItemByTerm (term, source) {
             console.dir(ex);
             return reject(ex);
         }
-    })
-
+    });
 }

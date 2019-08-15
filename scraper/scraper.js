@@ -1,61 +1,86 @@
-let mongoose = require('mongoose');
-let config = require('./config');
-let http = require('http');
-let url = require('url');
-let cheerio = require('cheerio');
-let Promise = require('bluebird');
+const mongoose = require('mongoose');
+const config = require('./config');
+const http = require('http');
+const url = require('url');
+const cheerio = require('cheerio');
+const Promise = require('bluebird');
+const iconv = require('iconv-lite');
+const encoding = 'utf8';
 
 mongoose.Promise = Promise;
 mongoose.connect(config.DB_URL);
 const db = mongoose.connection;
-const concurrency = 20;
+const concurrency = 10;
 //____________________________
 const baseUrl = 'http://www.nplg.gov.ge';
-const Dictionary = require('./models/dictionary').model;
+const Dictionary = require('../api/v1/model/dictionary').model;
 
 db.on('error', function (err) {
     console.error(err);
 });
 db.once('open', async function callback() {
     console.log('DB connection established', config.DB_URL);
-    // უცხო სიტყვათა +
-    //runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=3', 'foreign');
+    // უცხო სიტყვათა (done 2)
+    runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=3', 'foreign');
 
-    // civil encyclopedy +
-    //runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=5', 'civil');
+    // civil encyclopedy (done 2)
+    // runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=5', 'civil');
 
-    // civil education +
-    //runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=6', 'civil_education');
+    // civil education (done 2)
+    // runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=6', 'civil_education');
 
-    // universal encyclopedia
-    runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=14', 'universal_encyclopedia');
+    // universal encyclopedia (done 2)
+    // runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=14', 'universal_encyclopedia');
 
-    // Botanic
-    //runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=11', 'botanic');
+    // Botanic (done 2)
+    // runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=11', 'botanic');
 
-    // georgian -> sulxan saba
-    //runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=8', 'geo-sulkhan-saba');
-    
-    // metallurgy
-    //runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=15', 'metallurgy');
+    // georgian -> sulxan saba (done 2)
+    // runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=8', 'geo-sulkhan-saba');
 
-    //library_terms
-    //runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=10', 'library_terms');
+    // metallurgy (done 2)
+    // runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=15', 'metallurgy');
 
-    // maritime
-    //runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=40', 'maritime');
+    //library_terms (done 2)
+    // runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=10', 'library_terms');
 
-    // medical
-    //runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=13', 'medical');
+    // maritime (done 2)
+    // runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=40', 'maritime');
 
-    // grishashvili_tbilisuri
-    //runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=30', 'grishashvili_tbilisuri');
+    // medical (done 2)
+    // runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=13', 'medical');
 
-    //geo_material_culture
-    //runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=39', 'geo_material_culture');
+    // grishashvili_tbilisuri  (done 2)
+    // runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=30', 'grishashvili_tbilisuri');
 
-    //christianity
-    //runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=16', 'christianity');
+    //geo_material_culture (done 2)
+    // runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=39', 'geo_material_culture');
+
+    //christianity (done 2)
+    // runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=16', 'christianity');
+
+    // ბიოლოგიური და სამედიცინო ტერმინები და ცნებები (done 2)
+    // runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=12', 'biology_scientific');
+
+    // გურული (done 2)
+    // runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=50', 'gurian');
+
+    // ზემოგურული (done 2)
+    // runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=term&d=53&t=8720', 'upper_guria');
+
+    // თვალადური ქართული ჭაშნიკი (done 2)
+    // runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=47', 'tvaladian');
+
+    // ლათინური იურიდიული (done 2)
+    // runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=38', 'latin_justice');
+
+    // მეგრული (done 2)
+    // runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=33', 'megrelian');
+
+    // ქართლის ცხოვრების ტოპოარქეოლოგიური (done 2)
+    // runForeignScraper('http://www.nplg.gov.ge/gwdict/index.php?a=index&d=25', 'qartlis_cxovrebis_topoarqeologiuri');
+
+
 });
 
 async function runForeignScraper(dictionaryMainUrl, dictionaryType) {
@@ -155,7 +180,7 @@ async function runForeignScraper(dictionaryMainUrl, dictionaryType) {
 
                             let endTime = new Date();
                             console.log('Finished at:', endTime);
-                            console.log(`Scraping took ${(endTime-startTime) / 1000 / 60} minutes.`);
+                            console.log(`Scraping took ${(endTime - startTime) / 1000 / 60} minutes.`);
                         })
                         .catch(exception => {
                             console.dir(exception);
@@ -184,22 +209,24 @@ async function runForeignScraper(dictionaryMainUrl, dictionaryType) {
 
 function fetchRequestedHttpUrl(urlString, callback) {
     let urlOptions = url.parse(urlString);
-    let responseBody = '';
-        let req = http.request(urlOptions, (response) => {
-            response.on('data', (data) => {
-                responseBody += data.toString();
-            });
-            response.on('end', (data) => {
-                return callback(null, responseBody);
-            });
+    // let responseBody = '';
+    let bufferArray = [];
+    let req = http.request(urlOptions, (response) => {
+        response.on('data', (data) => {
+            bufferArray.push(data);
         });
-
-        req.on('error', (err) => {
-            console.log('ERROR FETCHING URL', urlString);
-            return callback(err, null);
+        response.on('end', (data) => {
+            let responseBody = iconv.decode(Buffer.concat(bufferArray), encoding);
+            return callback(null, responseBody);
         });
+    });
 
-        req.end();
+    req.on('error', (err) => {
+        console.log('ERROR FETCHING URL', urlString);
+        return callback(err, null);
+    });
+
+    req.end();
 }
 
 async function fetchRequestedHttpUrlPromise(urlString) {
@@ -292,7 +319,7 @@ function extractDetailUrls(urlString, htmlPageDataString) {
                         result.push(`${baseUrl}${href}`);
                     } else {
                         result.push(href);
-                    }                        
+                    }
                 }
             }
         });
@@ -314,57 +341,61 @@ function extractDetailPageData(urlString, htmlPageDataString) {
     };
     let defAndSource = {}
 
-    let $ = cheerio.load(htmlPageDataString);
-    let termSelector = `h1[class='term']`;
-    let defSelector = `div[class='defn']`;
-    let sourceSelector = `div[class='gwsrc']`;
-    let defBlock = `div[class='defnblock']`;
+    try {
+        let $ = cheerio.load(htmlPageDataString);
+        let termSelector = `h1[class='term']`;
+        let defSelector = `div[class='defn']`;
+        let sourceSelector = `div[class='gwsrc']`;
+        let defBlock = `div[class='defnblock']`;
 
 
-    if ($(termSelector).length) {
-        let targetElement = $(termSelector);
-        result.term = targetElement.text();
+        if ($(termSelector).length) {
+            let targetElement = $(termSelector);
+            result.term = targetElement.text();
 
-    } else {
-        console.log('Term Selector was not found', urlString);
+        } else {
+            console.log('Term Selector was not found', urlString);
+        }
+
+        if ($(defSelector).length) {
+            let targetElement = $(defSelector);
+            defAndSource.definition = targetElement.text();
+        } else {
+            console.log('Definition Selector was not found', urlString);
+        }
+
+        if ($(sourceSelector).length) {
+            let targetElement = $(sourceSelector);
+            defAndSource.source = targetElement.contents()
+                .filter(function () {
+                    return this.nodeType === 3;
+                }).eq(0).text().replace('\n', '').trim();
+        } else {
+            console.log('Source Selector was not found', urlString);
+        }
+
+        if ($(defBlock).length) {
+            let targetElement = $(defBlock);
+            targetElement.children().eq(0).children().each(i => {
+                if ((i + 1) < targetElement.children().eq(0).children().length &&
+                    targetElement.children().eq(0).children().eq(i).prop('tagName') === 'ACRONYM' &&
+                    targetElement.children().eq(0).children().eq(i + 1) &&
+                    targetElement.children().eq(0).children().eq(i + 1).prop('tagName') === 'SPAN') {
+                    result.originAndOriginalTerm.push({
+                        origin: targetElement.children().eq(0).children().eq(i).prop('title'),
+                        originalTerm: targetElement.children().eq(0).children().eq(i + 1).text()
+                    })
+                }
+            })
+
+        } else {
+            console.log('Definition Selector was not found', urlString);
+        }
+
+        result.defAndSource.push(defAndSource);
+    } catch (error) {
+        console.log(error);
     }
-
-    if ($(defSelector).length) {
-        let targetElement = $(defSelector);
-        defAndSource.definition = targetElement.text();
-    } else {
-        console.log('Definition Selector was not found', urlString);
-    }
-
-    if ($(sourceSelector).length) {
-        let targetElement = $(sourceSelector);
-        defAndSource.source = targetElement.contents()
-            .filter(function () {
-                return this.nodeType === 3;
-            }).eq(0).text().replace('\n', '').trim();
-    } else {
-        console.log('Source Selector was not found', urlString);
-    }
-
-    if ($(defBlock).length) {
-        let targetElement = $(defBlock);
-        targetElement.children().eq(0).children().each(i => {
-            if ((i + 1) < targetElement.children().eq(0).children().length &&
-                targetElement.children().eq(0).children().eq(i).prop('tagName') === 'ACRONYM' &&
-                targetElement.children().eq(0).children().eq(i + 1) &&
-                targetElement.children().eq(0).children().eq(i + 1).prop('tagName') === 'SPAN') {
-                result.originAndOriginalTerm.push({
-                    origin: targetElement.children().eq(0).children().eq(i).prop('title'),
-                    originalTerm: targetElement.children().eq(0).children().eq(i + 1).text()
-                })
-            }
-        })
-
-    } else {
-        console.log('Definition Selector was not found', urlString);
-    }
-
-    result.defAndSource.push(defAndSource);
 
     return result;
 }
