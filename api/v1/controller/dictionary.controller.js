@@ -1,9 +1,9 @@
 
-const router = express.Router();
-const Dictionary = require('../model/dictionary').model;
 
 module.exports = function (express) {
 
+    const router = express.Router();
+    const Dictionary = require('../model/dictionary').model;
     const getByQuery = async (req, res) => {
         try {
             let searchQuery = {};
