@@ -50,7 +50,7 @@ module.exports = function (express) {
             
             items.forEach((item, index) => {
                 let fileIndex = Math.floor(index / 50000);
-                siteMapFiles[fileIndex].content += `http://thedict.ge/${item.term}`;
+                siteMapFiles[fileIndex].content += encodeURI(`http://thedict.ge/${item.term}`);
                 if ((index + 1) % 50000) {
                     siteMapFiles[fileIndex].content += '\n';
                 }
@@ -61,6 +61,7 @@ module.exports = function (express) {
                     fs.writeFile(
                         fileItem.file,
                         fileItem.content,
+                        'utf8',
                     (error) => {
                         if (error) throw error;
                         resolve();
