@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 import * as RX from 'rxjs';
@@ -41,6 +41,16 @@ class DictionaryComponent extends React.Component {
         this.trial.debounceTime(400).distinctUntilChanged().subscribe(term => {
             this.makeRequest();
         });
+
+        DictionaryFunctions.getTermCount()
+            .then(({count}) => {
+                let stateCP = Object.assign({}, this.state);
+                stateCP.count = count;
+                this.setState(stateCP);
+            })
+            .catch(error => {
+
+            })
     }
 
     componentDidMount() {
@@ -83,6 +93,7 @@ class DictionaryComponent extends React.Component {
 
     render() {
         let items = [];
+        let {count} = this.state;
         if (this.state.result && this.state.result.length) {
             items = this.state.result;
         }
@@ -116,7 +127,7 @@ class DictionaryComponent extends React.Component {
                             !items.length &&
                             <h1 style={{ fontSize: '17px', marginTop: '5px', marginBottom: '5px' }}>
                                 ქართული განმარტებითი ლექსიკონი
-                                <small> შესულია 140 000  სიტყვაზე მეტი</small>
+                                <small> შესულია {Math.floor((count || 0) / 1000) * 1000}  სიტყვაზე მეტი</small>
                             </h1>
                         }
 
@@ -296,11 +307,11 @@ class SearchInputForm extends React.Component {
     }
 }
 
-class AdsImageLink extends React.Component {
-    render() {
-        return (
-            <img src={this.props.src} alt="alt" style={{ width: '100%', height: '3%' }} />
-        );
-    }
-}
+// class AdsImageLink extends React.Component {
+//     render() {
+//         return (
+//             <img src={this.props.src} alt="alt" style={{ width: '100%', height: '3%' }} />
+//         );
+//     }
+// }
 export default AppComponent;

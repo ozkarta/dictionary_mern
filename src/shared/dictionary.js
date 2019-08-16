@@ -16,3 +16,17 @@ export async function getDictionaryItemByTerm (term, source) {
         }
     });
 }
+
+export async function getTermCount() {
+    return new Promise(async(resolve, reject) => {
+        try {
+            let result = await axios.get(`${apiBaseUrl}/dictionary/count`);
+            if (result && result.data) {
+                return resolve(result.data);
+            }
+        } catch(ex) {
+            console.dir(ex);
+            return reject(ex);
+        }
+    });
+}
