@@ -59,8 +59,9 @@ app.use(function (req, res, next) {
         'http://localhost:4201',
         'http://localhost:4202',
         'http://thedict.ge',
+        'http://api.thedict.ge',
         'https://thedict.ge',
-        'thedict.ge'
+        'https://api.thedict.ge',
     ];
     let origin = req.headers.origin;
     if(allowedOrigins.indexOf(origin) > -1){
