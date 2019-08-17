@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-
+import { CommonModule } from '@angular/common';
 // API Services
 import { DictionaryAPIService } from './http/dictionary-api.service'
 
@@ -13,12 +13,14 @@ import { DictionaryAPIService } from './http/dictionary-api.service'
   declarations: [
   ],
   imports: [
+    CommonModule,
     RouterModule,
     HttpClientModule
   ],
   exports: [
     RouterModule,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule
   ],
   providers: [
     // API SERVICES
