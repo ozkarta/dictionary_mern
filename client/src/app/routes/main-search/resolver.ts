@@ -14,7 +14,7 @@ export class DictionaryCountResolver implements Resolve<any> {
         return this.dictionaryApiService.getCount()
             .pipe(
                 map(response => {
-                    return response;
+                    return response.count;
                 }),
                 catchError(error => {
                     console.log(error);

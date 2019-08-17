@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { count } from 'rxjs/operators';
 
 @Component({
     selector: 'app-main-search-welcole-statistics',
@@ -7,5 +8,9 @@ import { Component } from '@angular/core';
 })
 
 export class WelcomeStatisticsComponent {
+    @Input('count') count;
 
+    getRoundedCount(count = 0) {
+        return Math.floor(count / 1000) * 1000;
+    }
 }

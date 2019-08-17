@@ -3,7 +3,7 @@
         <div class="col-md-2"></div>
         <div class="col-md-8" style="padding-top: 5%;">
             <app-main-search-search-box (searchTermChanged)="searchTermChanged($event)" [searchTerm]="searchTerm"></app-main-search-search-box>
-            <app-main-search-welcole-statistics *ngIf="!items?.length"></app-main-search-welcole-statistics>
+            <app-main-search-welcole-statistics *ngIf="!items?.length" [count]="count"></app-main-search-welcole-statistics>
             <app-main-search-result-box *ngIf="items?.length" [items]="items"></app-main-search-result-box>
         </div>
         <div class="col-md-2"></div>
