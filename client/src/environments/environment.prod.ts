@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiServer: 'http://server.thedict.ge'
+  apiServer: 'https://server.thedict.ge'
 };
