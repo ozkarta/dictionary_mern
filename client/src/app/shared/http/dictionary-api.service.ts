@@ -13,7 +13,7 @@ export class DictionaryAPIService {
 
   public searchByTerm(term): Observable<any> {
     gtag('js', new Date());
-    gtag('config', 'UA-145836201-1');
+    gtag('config', 'UA-145836201-1', {'page_path': `/${term}`});
     return this.http.get<any>(`${API_URL}/api/v1/dictionary?searchTerm=${term}`);
   }
 
