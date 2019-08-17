@@ -12,8 +12,10 @@ export class DictionaryAPIService {
   constructor(private http: HttpClient) { }
 
   public searchByTerm(term): Observable<any> {
-    gtag('js', new Date());
-    gtag('config', 'UA-145836201-1', {'page_path': `/${term}`});
+    setTimeout(() => {
+      gtag('js', new Date());
+      gtag('config', 'UA-145836201-1', {'page_path': `/${term}`});
+    }, 0);
     return this.http.get<any>(`${API_URL}/api/v1/dictionary?searchTerm=${term}`);
   }
 
