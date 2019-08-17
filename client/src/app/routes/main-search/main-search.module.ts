@@ -8,6 +8,7 @@ import { MainSearchRoutingModule } from './main-search-routing.module';
 import { SearchBoxComponent } from './search-box/search-box.component';
 import { ResultBoxComponent } from './result-box/result-box.component';
 import { WelcomeStatisticsComponent } from './welcome-statistics/welcome-statistics.component';
+import { DictionaryCountResolver, DictionaryResolver } from './resolver';
 
 @NgModule({
   imports: [
@@ -22,6 +23,8 @@ import { WelcomeStatisticsComponent } from './welcome-statistics/welcome-statist
     WelcomeStatisticsComponent,
   ],
   providers: [
+    DictionaryCountResolver,
+    DictionaryResolver
   ]
 })
 export class MainSearchModule { }

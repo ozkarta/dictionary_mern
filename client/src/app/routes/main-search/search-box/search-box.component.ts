@@ -2,15 +2,6 @@ import { Component, ViewChild, AfterViewInit, OnInit, ElementRef, Input, Output,
 import { map, filter, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { fromEvent, Observable, of } from 'rxjs';
 
-// const typeahead = fromEvent(searchBox, 'input').pipe(
-//     map((e: Event) => {
-//         console.log(e);
-//         return '';
-//     }),
-//     filter(text => text.length > 2),
-//     debounceTime(10),
-//     distinctUntilChanged()
-// );
 
 @Component({
     selector: 'app-main-search-search-box',

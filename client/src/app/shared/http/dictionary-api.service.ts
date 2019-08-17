@@ -14,4 +14,8 @@ export class DictionaryAPIService {
     return this.http.get<any>(`${API_URL}/api/v1/dictionary?searchTerm=${term}`);
   }
 
+  public getCount(): Observable<any> {
+    return this.http.get<any>(`${API_URL}/api/v1/dictionary/count`);
+  }
+
 }

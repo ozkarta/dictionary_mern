@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 // API Services
 import { DictionaryAPIService } from './http/dictionary-api.service'
 
@@ -15,12 +16,14 @@ import { DictionaryAPIService } from './http/dictionary-api.service'
   imports: [
     CommonModule,
     RouterModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   exports: [
     RouterModule,
     HttpClientModule,
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   providers: [
     // API SERVICES

@@ -6,13 +6,13 @@
                 <div class="row" style="margin-top: 2px;">
                     <div class="col-md-12">
                         <div class="pull-left"></div>
-                        <div class="pull-left toolbox-fulltext">Source: <small> {{defAndSource?.source}}</small></div>
+                        <div *ngIf="defAndSource?.source" class="pull-left toolbox-fulltext">Source: <small> {{defAndSource?.source}}</small></div>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 2px;">
                     <div class="col-md-12">
                         <div class="pull-left"></div>
-                        <div class="pull-right toolbox-fulltext">Dictionary: <small> {{switchType(item.type)}} </small>
+                        <div *ngIf="switchType(item.type)" class="pull-right toolbox-fulltext">Dictionary: <small> {{switchType(item.type)}} </small>
                         </div>
                     </div>
                 </div>

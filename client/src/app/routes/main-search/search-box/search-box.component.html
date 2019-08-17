@@ -3,7 +3,7 @@
         <form class="form-horizontal" role="form">
             <div class="form-group has-feedback">
                 <div class="col-sm-12">
-                    <input #termInput type="text" class="form-control searchbox" placeholder="საძიებელი სიტყვა" autocomplete="off">
+                    <input #termInput type="text" class="form-control searchbox" placeholder="საძიებელი სიტყვა" autocomplete="off" name="searchTerm" [(ngModel)]="searchTerm">
                     <span name="boxdefault" class="glyphicon glyphicon-search form-control-feedback"
                         style="cursor: pointer; display: none;"></span>
                     <span name="boxdelete" class="glyphicon glyphicon-remove form-control-feedback"
