@@ -24,7 +24,7 @@
     "iconv-lite": "^0.5.0",
     "jsonwebtoken": "8.1.1",
     "latest": "0.2.0",
-    "lodash": "4.17.4",
+    "lodash": "4.17.21",
     "moment": "2.21.0",
     "mongoosastic": "4.4.1",
     "mongoose": "5.0.8",
